@@ -1,5 +1,5 @@
 class Office
-  DOCTOR_NAMES_LIST = ["Ravi", "Amar", "Krishna", "Shiva", "Vishnu"]
+  DOCTOR_NAMES_LIST = ["Ravi", "Amar", "Krishna", "Shivam", "Vishnu"]
   def initialize
     @doctors = []
    DOCTOR_NAMES_LIST.each do |name|
