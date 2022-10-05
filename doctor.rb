@@ -11,8 +11,7 @@ require 'scanf.rb'
   def doctors_list
     return DOCTOR_NAMES_LIST
   end
-
-  def getDoctor(name)
+ def getDoctor(name)
     selectedDoctorIndex = @doctors.index{|doctor| doctor.name == name}
     if (selectedDoctorIndex != nil)
       return @doctors.at(selectedDoctorIndex)
@@ -21,7 +20,6 @@ require 'scanf.rb'
     end
   end
 end
-
 class Doctor
   def initialize(name, start_time, end_time, durationInMins)
     @name = name
@@ -31,36 +29,29 @@ class Doctor
     @appointment = Appointment.new(@name)
     @appointment.createSlots(start_time,end_time, durationInMins,@name)
   end
-
   def name
     @name
   end
-
   def appointment
     @appointment
   end
-
-  def getAvailableAppointmentSlots
+def getAvailableAppointmentSlots
     available_slots = @appointment.getAvailableSlots()
     available_slots
   end
-
   def getOccupiedAppointmentSlots
     occupied_slots = @appointment.getOccupiedSlots()
     occupied_slots
   end
 end
-
 class Patient
   def initialize(name)
     @name = name
   end
-
   def name
     @name
   end
-  
-  def bookAppointment(office, slotNumber, doctor_name)
+    def bookAppointment(office, slotNumber, doctor_name)
     doctor = office.getDoctor(doctor_name)
     if (!doctor.nil?)
       doctor_appointment = doctor.appointment
@@ -76,13 +67,11 @@ class Patient
     end
   end
 end
-
 class Appointment
   def initialize(name)
     @slots = []
   end
-
-  def createSlots(stime, etime, duration, name)
+def createSlots(stime, etime, duration, name)
     (1..(etime-stime)/(60*duration)).each do |slot_number|
       start_time = stime+(slot_number-1)*duration*60
       end_time = start_time+duration*60
@@ -90,17 +79,13 @@ class Appointment
       @slots.push(slot)
     end
   end
-
-  def getAvailableSlots
+def getAvailableSlots
     @slots.select{|slot| slot.availablity}
   end
-
-  def getOccupiedSlots
+def getOccupiedSlots
     @slots.select{|slot| !slot.availablity}
   end
-
 end
-
 class Slot
   def initialize(number, stime, etime, availablity, patient_name)
     @number = number
@@ -109,33 +94,26 @@ class Slot
     @availablity = availablity
     @patient_name = patient_name
   end
-  
   def availablity
     @availablity
   end
-  
   def stime
     @stime
   end
-
-  def etime
+def etime
     @etime
   end
-
-  def number
+def number
     @number
   end
-
-  def patient_name
+def patient_name
     @patient_name
   end
-
-  def book(patient_name)
+def book(patient_name)
     @availablity = false
     @patient_name = patient_name
   end
 end
-
 office = Office.new()
 patient_name = ""
 puts "Welcome to Doctor Clinic"
@@ -149,7 +127,6 @@ while(patient_name != "exit") do
     available_appointment_slots = []
     count = 0
     no_of_doctors = office.doctors_list().length
-    
     while(available_appointment_slots.empty? && count < no_of_doctors) do
       count = count+1
       selected_doctor = nil
@@ -162,7 +139,6 @@ while(patient_name != "exit") do
       end
       available_appointment_slots = selected_doctor.getAvailableAppointmentSlots()
     end
-    
     if (count != no_of_doctors)
       puts "Available slots"
       available_appointment_slots.each{|slot| puts "Slot Number #{slot.number}: #{slot.stime} to #{slot.etime} "}  
